@@ -1,31 +1,31 @@
 ## 📜 About The Project
 
-This project is a real-time data pipeline and visualization dashboard that simulates the monitoring of global earthquake events. The system is built on a distributed messaging architecture using Apache Kafka and provides a dynamic, auto-refreshing web-based dashboard for visualizing the most recent seismic alerts.
+This project is the capstone for the IBM Data Science Professional Certificate. It analyzes a decade of SpaceX Falcon 9 launch data to identify the key factors determining the success of first-stage rocket landings and builds a machine learning model to predict these outcomes.
 
-The core components of the system are:
+SpaceX has revolutionized the aerospace industry by making space launches more affordable, largely due to its ability to reuse the first stage of the Falcon 9 rocket. The success of landing this first stage is critical for determining the final cost of a launch. This project aims to answer a key question: **What factors contribute to a successful first-stage landing?**
 
-* **Data Producer (`producer.py`)**: This script reads historical earthquake data from a CSV file (`database.csv`). It then simulates live events by randomly selecting an earthquake from this dataset and publishing its details (latitude, longitude, depth, magnitude) to a Kafka topic named `earthquakes` at regular intervals.
+To achieve this, we executed a comprehensive data science workflow, which included:
+1.  **Data Collection**: Gathering historical launch data from the SpaceX API and performing web scraping on Wikipedia to enrich the dataset.
+2.  **Data Wrangling & EDA**: Cleaning and preparing the data for analysis. We used SQL for initial exploration and Python libraries (Pandas, Matplotlib, Seaborn) for in-depth exploratory data analysis to uncover initial trends.
+3.  **Interactive Visualization**: Creating interactive maps with Folium to visualize launch sites and landing outcomes geographically.
+4.  **Machine Learning Prediction**: Building and evaluating several classification models to predict whether the first stage will land successfully. Our analysis revealed that the **Decision Tree Classifier** was the most effective model for this task.
 
-* **Data Consumer (`consumer.py`)**: This service listens to the `earthquakes` topic. When it receives an event, it uses a machine learning model (`severity_model.pkl`) to classify the earthquake's severity as either 'Moderate' or 'Severe'. The model is a `RandomForestClassifier` trained on magnitude and depth. If the model is not available, it falls back to a simple rule based on a magnitude threshold. The processed event, now enriched with a timestamp and a severity label, is appended to a log file (`alerts_log.csv`).
+Our key findings indicate that launch success is strongly correlated with the launch site's operational experience, the specific orbital trajectory (e.g., GEO, SSO), and continuous technological improvements over the years. The KSC LC-39A launch site was identified as having the highest success rate.
 
-* **Machine Learning Model (`train_model.py`)**: A simple script to train the severity classification model using the historical data in `database.csv`. It saves the trained classifier and the feature names into a pickle file (`severity_model.pkl`) for the consumer to use.
-
-* **Real-Time Dashboard (`dashboard.py`)**: A web application built with Streamlit that provides a user-friendly interface for monitoring the latest earthquake alerts. The dashboard reads the `alerts_log.csv` file, displays data from the last 10 minutes, and automatically refreshes every 60 seconds.
-
-This project demonstrates a full-cycle data engineering workflow, including data generation, real-time processing with a message queue, ML-based data enrichment, and live visualization.
+This project showcases a full data science pipeline, from data acquisition and cleaning to advanced analytics and predictive modeling.
 
 ### ✨ Key Features
 
-* **Real-Time Data Flow**: Built around Apache Kafka for low-latency message passing between components.
-* **ML-Powered Enrichment**: A scikit-learn model classifies earthquake severity in real-time.
-* **Interactive Visualization**: A dynamic Streamlit dashboard with auto-refresh, live statistics, and an interactive map of epicenters using Pydeck.
-* **Decoupled Architecture**: Each component (producer, consumer, dashboard) runs independently, making the system scalable and robust.
+* **Multi-Source Data Collection**: Combines data from a REST API and web scraping.
+* **In-Depth Exploratory Data Analysis (EDA)**: Utilizes SQL and data visualization to identify trends and relationships.
+* **Interactive Geospatial Analysis**: Uses Folium to create interactive maps of launch sites and success rates.
+* **Predictive Modeling**: Compares multiple machine learning algorithms to find the best predictor for landing success.
+* **Comprehensive Reporting**: The project culminates in a detailed presentation summarizing the methodology, results, and conclusions.
 
 ### 🤖 Tech Stack
 
-* **Data Streaming**: Apache Kafka
-* **Backend & Data Processing**: Python
-* **Dashboard**: Streamlit
-* **Data Manipulation**: Pandas
-* **Machine Learning**: Scikit-learn
-* **Geospatial Visualization**: Pydeck
+* **Data Collection**: Python (`requests`, `BeautifulSoup`)
+* **Data Analysis**: Python (`pandas`, `numpy`), SQL
+* **Data Visualization**: `matplotlib`, `seaborn`, `folium`
+* **Machine Learning**: `scikit-learn`
+* **Reporting**: Jupyter Notebook, PowerPoint/PDF
